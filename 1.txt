@@ -1,0 +1,95 @@
+[10:00 AM, 4/5/2019] Mehak Maan: // income tax.js in public folder
+
+Please paste it
+
+class IncomeTax{
+    let nRc = 0;
+    ontarioTax(nIncome){
+        if (nIncome <= 40922) {
+            nRc = nIncome * .0505;
+            return Number(nRc.toFixed(2));
+        } else if (nIncome <= 81847) {
+            nRc = (nIncome - 40922)* .0915 + 2067;
+            return Number(nRc.toFixed(2));
+        } else if (nIncome <= 150000) {
+            nRc = (nIncome - 81847)* .1116 + 5811;
+            return Number(nRc.toFixed(2));
+        } else if (nIncome <= 220000) {
+            nRc = (nIncome - 150000)* .1216 + 13417;
+            return Number(nRc.toFixed(2));
+        } else {
+            nRc = (nIncome - 220000)* .1316 + 21929;
+            return Number(nRc.toFixed(2));
+        }
+    }
+    federalTax(nIncome){
+        let nRc = (nIncome - 90563) * .26 + 16075;
+        return Number(nRc.toFixed(2));
+    }
+
+}
+
+module.exports = IncomeTax;
+[10:00 AM, 4/5/2019] Mehak Maan: // main.js
+
+const IncomeTax = require("./IncomeTax");
+
+document.getElementById("taxForm").addEventListener("submit", (evt)=>{
+    evt.preventDefault();
+    let nIncome = document.getElementById("taxableIncome").value;
+    let nDeducted = document.getElementById("taxDeducted").value;
+    let oTax = new IncomeTax();
+    let nOntario = oTax.ontarioTax(nIncome);
+    let nFederal = oTax.federalTax(nIncome);
+    document.getElementById("taxOwing1").innerHTML = (nOntario).toFixed(2);
+    document.getElementById("taxOwing2").innerHTML = (nFederal).toFixed(2);
+    document.getElementById("taxOwing").innerHTML = (nOntario + nFederal - nDeducted).toFixed(2);
+});
+[10:00 AM, 4/5/2019] Mehak Maan: //index.html
+
+<body>
+	<p>Ontario and Federal Tax Schedule</p>
+	<form id="taxForm">
+		<input id="taxableIncome" placeholder="enter taxable income" />
+		<input id="taxDeducted" placeholder="enter tax deducted" />
+		<button type="submit">Calculate Tax Owing</button>
+		<p>Your federal owing is : <span id="taxOwing2"></span>
+		<p>Your ontario owing is : <span id="taxOwing1"></span>
+		<p>Your tax owing is <span id="taxOwing"></span>
+	</form>
+	<script src="main.js"></script>
+</body>
+[10:00 AM, 4/5/2019] Mehak Maan: /// tests
+
+
+it("Calculates Federal Tax on $45,282", ()=>{
+    expect(oTax.federalTax(45282)).toBe(6792.00);
+});
+
+it("Calculates Federal Tax on $90,563", ()=>{
+    expect(oTax.federalTax(90563)).toBe(16075.00);
+});
+
+it("Calculates Federal Tax on $140,388", ()=>{
+    expect(oTax.federalTax(140388)).toBe(29029.00);
+});
+
+it("Calculates Federal Tax on $200,000", ()=>{
+    expect(oTax.federalTax(200000)).toBe(46317.00);
+	
+	
+it("Calculates Ontario Tax on $40,922", ()=>{
+    expect(oTax.ontarioTax(40922)).toBe(2066.56);
+});
+
+it("Calculates Ontario Tax on $81,847", ()=>{
+    expect(oTax.ontarioTax(81847)).toBe(5811.64);
+});
+
+it("Calculates Ontario Tax on $150,000", ()=>{
+    expect(oTax.ontarioTax(150000)).toBe(13416.87);
+});
+
+it("Calculates Ontario Tax on $220,000", ()=>{
+    expect(oTax.ontarioTax(220000)).toBe(21929.00);
+});
