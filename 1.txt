@@ -29,22 +29,6 @@ class IncomeTax{
 
 }
 
-module.exports = IncomeTax;
-[10:00 AM, 4/5/2019] Mehak Maan: // main.js
-
-const IncomeTax = require("./IncomeTax");
-
-document.getElementById("taxForm").addEventListener("submit", (evt)=>{
-    evt.preventDefault();
-    let nIncome = document.getElementById("taxableIncome").value;
-    let nDeducted = document.getElementById("taxDeducted").value;
-    let oTax = new IncomeTax();
-    let nOntario = oTax.ontarioTax(nIncome);
-    let nFederal = oTax.federalTax(nIncome);
-    document.getElementById("taxOwing1").innerHTML = (nOntario).toFixed(2);
-    document.getElementById("taxOwing2").innerHTML = (nFederal).toFixed(2);
-    document.getElementById("taxOwing").innerHTML = (nOntario + nFederal - nDeducted).toFixed(2);
-});
 [10:00 AM, 4/5/2019] Mehak Maan: //index.html
 
 <body>
